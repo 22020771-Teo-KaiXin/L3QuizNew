@@ -1,20 +1,125 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Image, Button, Alert, ScrollView } from 'react-native';
+import { Text, View, TextInput, Image, Button, Alert, ScrollView, StyleSheet} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from "react-native-vector-icons/FontAwesome6";
 
-//Custom components
-const InputBox = ({label, onChangeText})=> {
+const styles = StyleSheet.create({
+    scrollView: {
+        marginTop: 50,
+        backgroundColor: '#f5f5f5'
+    },
+
+    headerContainer: {
+        margin: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderWidth: 5,
+        backgroundColor: '#F5F5DC',
+    },
+
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    bowlIcon: {
+        marginRight: 15,
+        marginLeft: 15
+    },
+
+    headerText: {
+        fontSize: 24,
+        fontWeight: 'bold'
+    },
+
+    welcomeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10
+    },
+
+    welcomeText: {
+        fontSize: 19,
+        fontWeight: 'bold'
+    },
+
+    cloverIcon: {
+        marginLeft: 5
+    },
+
+    inputBoxContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 15
+    },
+
+    inputLabel: {
+        marginRight: 10,
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+
+    textInput: {
+        borderWidth: 1,
+        width: 330,
+        height: 40,
+        paddingHorizontal: 10,
+        fontSize: 20,
+        color: 'white',
+        borderColor: 'purple',
+        backgroundColor: 'black',
+    },
+
+    questionContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginVertical: 40,
+        padding: 10,
+        borderWidth: 3,
+        borderColor: 'purple',
+        backgroundColor: '#D9C6E5',
+        justifyContent: 'space-evenly',
+        width: 400,
+        alignSelf: 'center',
+    },
+
+    questionText: {
+        fontSize: 19,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        textDecorationLine: 'underline',
+    },
+
+    image: {
+        width: '100%',
+        height: 300,
+        marginVertical: 10,
+    },
+
+    pickerSelect: {
+        inputAndroid: {
+            height: 40,
+            paddingHorizontal: 10,
+            borderWidth: 2,
+            width: 350,
+            marginVertical: 20,
+            backgroundColor: 'black',
+            alignSelf: 'center',
+            color: 'white',
+        },
+    },
+});
+
+const InputBox = ({ label, onChangeText }) => {
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-            <Text style={{ marginRight: 10, fontSize: 20, fontWeight: 'bold' }}>{label}</Text>
+        <View style={styles.inputBoxContainer}>
+            <Text style={styles.inputLabel}>{label}</Text>
             <TextInput
-                style={{
-                    borderWidth: 1,
-                    width: 330,
-                    height: 40,
-                    paddingHorizontal: 10,
-                }}
+                style={styles.textInput}
                 onChangeText={onChangeText}
             />
         </View>
@@ -23,20 +128,13 @@ const InputBox = ({label, onChangeText})=> {
 
 const Question = ({ question, image, options, onValueChange }) => {
     return (
-        <View style={{ marginVertical: 20 }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{question}</Text>
-            <Image source={image} style={{ width: 450, height: 300, marginVertical: 10 }} />
+        <View style={styles.questionContainer}>
+            <Text style={styles.questionText}>{question}</Text>
+            <Image source={image} style={styles.image} />
             <RNPickerSelect
                 onValueChange={onValueChange}
                 items={options}
-                style={{
-                    inputAndroid: {
-                        height: 40,
-                        paddingHorizontal: 10,
-                        borderWidth: 1,
-                        width: 330,
-                    },
-                }}
+                style={styles.pickerSelect}
             />
         </View>
     );
@@ -132,17 +230,20 @@ const MyApp = () => {
     };
 
     return (
-        <ScrollView style={{ marginTop: 50 }}>
-            <View style={{ margin: 15, justifyContent: 'center', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <Icon name="bowl-food" size={20} color="#B23B23" style={{ marginRight: 15 }} />
-                    <Text style={{ fontSize: 24, fontWeight: 'bold' }}>FOOD QUIZ</Text>
-                    <Icon name="bowl-food" size={20} color="#B23B23" style={{ marginLeft: 15 }} />
+        <ScrollView style={styles.scrollView}>
+            <View style={styles.headerContainer}>
+                <View style={styles.header}>
+                    <Icon name="bowl-food" size={20} color="#B23B23" style={styles.bowlIcon} />
+                    <Text style={styles.headerText}>FOOD QUIZ</Text>
+                    <Icon name="bowl-food" size={20} color="#B23B23" style={styles.bowlIcon} />
                 </View>
             </View>
 
-            <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 10 }}>Welcome to the quiz! Good luck!</Text>
-            <Icon name="thumbs-up" size={20} color="#B23B23" style={{ marginLeft: 15 }} />
+            <View style={styles.welcomeContainer}>
+                <Text style={styles.welcomeText}>Welcome to the quiz! Good luck!</Text>
+                <Icon name="clover" size={20} color="green" style={styles.cloverIcon} />
+            </View>
+
 
             <InputBox label="Name:" onChangeText={(text) => setName(text)} />
 
@@ -251,7 +352,7 @@ const MyApp = () => {
                 onValueChange={(value) => setQuestion15Answer(value)}
             />
 
-            <View style={{ marginTop: 30 }}>
+            <View style={{ marginTop: 30}}>
                 <Button title="Submit Answers" onPress={handleSubmit} />
             </View>
         </ScrollView>
